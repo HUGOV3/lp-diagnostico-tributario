@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V3 FARMA - Diagnóstico Tributário para Farmácias</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset e Configurações Globais */
+        :root {
+            --primary-blue: #0d47a1;
+            --secondary-blue: #1976d2;
+            --accent-green: #2e7d32;
+            --accent-green-hover: #1b5e20;
+            --light-gray: #f4f6f8;
+            --dark-gray: #333;
+            --text-color: #555;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: #fff;
+        }
+
+        /* Utilitários */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 60px auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-green);
+            color: #fff;
+            padding: 18px 35px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 8px;
+            text-transform: uppercase;
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            background-color: var(--accent-green-hover);
+            transform: translateY(-3px);
+        }
+
+        /* Header */
+        .header {
+            background-color: #fff;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-color: var(--light-gray);
+            padding: 100px 0;
+        }
+
+        .hero .container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Alinha o conteúdo à esquerda */
+        }
+
+        .hero-content {
+            max-width: 800px; /* Aumenta a largura máxima para o texto */
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero h2 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            font-weight: 400;
+            max-width: 700px;
+        }
+        
+        .hero-signature {
+            margin-bottom: 30px;
+            color: var(--primary-blue);
+        }
+        
+        .hero-signature .name {
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .hero-signature .title {
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+        
+        .hero-cta-subtext {
+            font-size: 0.9rem;
+            margin-top: 10px;
+            color: #777;
+        }
+
+        /* Problem Section */
+        .problem-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .problem-card {
+            background-color: #fff;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.07);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .problem-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .problem-card .icon {
+            margin-bottom: 20px;
+            color: var(--secondary-blue);
+        }
+
+        .problem-card h3 {
+            font-size: 1.4rem;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+
+        /* Map Section (Accordion) */
+        .map {
+            background-color: var(--light-gray);
+        }
+
+        .accordion {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .accordion-item {
+            background-color: #fff;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            transition: background-color 0.3s;
+        }
+        
+        .accordion-header:hover {
+            background-color: #f9f9f9;
+        }
+
+        .accordion-header h3 {
+            font-size: 1.2rem;
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            padding: 0 20px;
+        }
+        
+        .accordion-content-inner {
+            padding-bottom: 20px;
+        }
+
+        .accordion-content p, .accordion-content ul {
+            margin-bottom: 15px;
+        }
+        
+        .accordion-content ul {
+            padding-left: 20px;
+        }
+        
+        .accordion-content strong {
+            color: var(--dark-gray);
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 2000px; /* Adjust as needed */
+        }
+        
+        .accordion-icon {
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+            color: var(--secondary-blue);
+        }
+        
+        .accordion-item.active .accordion-icon {
+            transform: rotate(45deg);
+        }
+
+        /* Checklist Section */
+        .checklist-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.07);
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .checklist-item input[type="checkbox"] {
+            margin-right: 15px;
+            min-width: 20px;
+            height: 20px;
+            accent-color: var(--accent-green);
+            margin-top: 4px;
+        }
+        
+        .checklist-result {
+            margin-top: 40px;
+            padding: 25px;
+            background-color: #e8f5e9; /* Light green */
+            border-left: 5px solid var(--accent-green);
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .checklist-result p {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+            margin-bottom: 20px;
+        }
+        
+        /* Final CTA Section */
+        .final-cta {
+            background-color: var(--primary-blue);
+            color: #fff;
+            text-align: center;
+        }
+
+        .final-cta .section-title, .final-cta .section-subtitle {
+            color: #fff;
+        }
+        
+        .final-cta .section-subtitle {
+            margin-bottom: 30px;
+        }
+
+        .final-cta p {
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+            font-size: 1.1rem;
+        }
+        
+        .scarcity-text {
+            font-weight: 600;
+            margin-top: -15px;
+            margin-bottom: 40px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--dark-gray);
+            color: #ccc;
+            padding: 50px 0;
+            text-align: center;
+        }
+        
+        .footer .logo img {
+            height: 40px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-info {
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+        
+        .footer-info a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* Responsividade */
+        @media (max-width: 992px) {
+            .hero .container {
+                text-align: center;
+            }
+            .hero-content, .hero-signature {
+                text-align: center;
+            }
+            .problem-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .section {
+                padding: 60px 0;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .checklist-container {
+                padding: 20px;
+            }
+            /* Ajuste do botão do cabeçalho para mobile */
+            .header .cta-button {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Bloco de Herói (Primeira Impressão) -->
+    <header class="header">
+        <div class="container">
+            <a href="#" class="logo">
+                <img src="https://v3farma.com.br/wp-content/uploads/2023/08/WhatsApp_Image_2023-09-06_at_07.48.41-removebg-preview-1.png" alt="Logo V3 FARMA">
+            </a>
+            <a href="https://wa.me/5571991101148?text=Olá!%20Vi%20a%20página%20da%20V3%20Farma%20e%20gostaria%20de%20agendar%20meu%20Diagnóstico%20Tributário%20Gratuito." target="_blank" class="cta-button">Agendar Diagnóstico</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Sua Farmácia Está Pagando Imposto Demais (e Você Nem Sabe)?</h1>
+                <h2>Descubra como transformar dados fiscais em lucro real com o mapa estratégico que as grandes redes não querem que você conheça.</h2>
+                <div class="hero-signature">
+                    <p class="name">Hugo Fontes</p>
+                    <p class="title">Contador Estratégico e Fundador da V3 FARMA</p>
+                </div>
+                <a href="https://wa.me/5571991101148?text=Olá!%20Vi%20a%20página%20da%20V3%20Farma%20e%20gostaria%20de%20agendar%20meu%20Diagnóstico%20Tributário%20Gratuito." target="_blank" class="cta-button">QUERO MEU DIAGNÓSTICO TRIBUTÁRIO GRATUITO</a>
+                <p class="hero-cta-subtext">100% Confidencial e Sem Compromisso</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Bloco de Agitação do Problema -->
+    <section class="section problem">
+        <div class="container">
+            <h2 class="section-title">Você se identifica com algum destes cenários?</h2>
+            <div class="problem-cards">
+                <div class="problem-card">
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/>
+                            <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.935-1.37-1.293l-.101-.034c-.84-.282-1.282-.63-1.282-1.168 0-.435.38-.814 1.168-.814.839 0 1.158.373 1.158.765l.011.001h.375v-.45c-.137-.043-.356-.068-.56-.083v-.385h-.375v.385c-.839.043-1.36.494-1.36.997 0 .606.478.935 1.282 1.272l.099.034c.874.315 1.366.63 1.366 1.234 0 .618-.464 1.03-1.266 1.03-.875 0-1.259-.38-1.319-.893l-.011-.002h-.375zm-7.552 1.243a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m-2-4a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-2-4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5"/>
+                            <path d="M0 4a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zM1 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1z"/>
+                        </svg>
+                    </div>
+                    <h3>Lucro que Some</h3>
+                    <p>Você vende bem, mas o dinheiro não sobra no fim do mês?</p>
+                </div>
+                <div class="problem-card">
+                     <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-file-earmark-question" viewBox="0 0 16 16">
+                            <path d="M8.97 4.97a.75.75 0 0 1 1.06 0l.94.94a.75.75 0 0 1 0 1.06l-.94.94a.75.75 0 0 1-1.06 0l-.94-.94a.75.75 0 0 1 0-1.06z"/>
+                            <path d="M5 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m.5 1.5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0"/>
+                            <path d="M12 10a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v1.5a2.5 2.5 0 0 0 5 0V7a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2"/>
+                            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                        </svg>
+                    </div>
+                    <h3>Insegurança Fiscal</h3>
+                    <p>Você tem medo de uma fiscalização e não sabe se seu cadastro de produtos está 100% correto?</p>
+                </div>
+                <div class="problem-card">
+                     <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-graph-down-arrow" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm10 11.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-1 0v2.6l-3.613-4.417a.5.5 0 0 0-.74-.037L7.06 8.233 3.404 3.206a.5.5 0 0 0-.808.588l4 5.5a.5.5 0 0 0 .758.06l2.609-2.61L13.445 11H10.5a.5.5 0 0 0-.5.5"/>
+                        </svg>
+                    </div>
+                    <h3>Decisões no Escuro</h3>
+                    <p>Sua precificação é baseada no 'achismo' e você não tem certeza do custo real dos seus produtos?</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Bloco do Mapa Estratégico (Acordeão) -->
+    <section class="section map">
+        <div class="container">
+            <h2 class="section-title">O Mapa Estratégico para Desbloquear o Lucro da Sua Farmácia</h2>
+            <p class="section-subtitle">Sua farmácia gera dados valiosos todos os dias. Veja como transformá-los de uma obrigação burocrática em um centro de inteligência para tomar decisões que aumentam sua margem de lucro.</p>
+
+            <div class="accordion">
+                <!-- Item 1 -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h3>Mentalidade Estratégica: A Base de Tudo</h3>
+                        <div class="accordion-icon">+</div>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <p><strong>Sua Contabilidade é a Linguagem do Seu Negócio:</strong> Pare de ver seu contador como um mero "emissor de guias de imposto". A contabilidade traduz a saúde da sua empresa para o mercado (bancos, fornecedores, sócios). Ela precisa falar a verdade sobre sua operação para que você tome decisões corretas.</p>
+                            <p><strong>O Governo é Seu "Sócio Confuso":</strong> Impostos são a única certeza além da morte. O governo é um parceiro complexo, cheio de regras que mudam. Entender o básico dessas regras não é uma opção, é uma necessidade para proteger seu lucro e evitar surpresas desagradáveis.</p>
+                            <p><strong>Seu Papel: Gestor, Não Contador:</strong> Você não precisa ser um especialista em PIS, COFINS ou ICMS. Sua função é entender a estrutura, fazer as perguntas certas e usar os dados que seu contador estratégico fornece para tomar decisões melhores sobre compras, preços e investimentos.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Item 2 -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h3>Fundamentos Inegociáveis: A Estrutura do Seu Negócio</h3>
+                        <div class="accordion-icon">+</div>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <p><strong>A Regra de Ouro: Separe o CNPJ do CPF:</strong> Este é o princípio básico e o maior problema do varejo. A conta da empresa paga as despesas da empresa. Sua remuneração (pró-labore) vai para sua conta pessoal. Misturar isso mascara a realidade financeira, impede a obtenção de crédito e cria um risco fiscal enorme.</p>
+                            <p><strong>O Cadastro de Produtos é o DNA do Seu Imposto:</strong> O erro mais comum começa aqui. Cada produto (SKU) tem uma tributação diferente. Exemplo Prático: Medicamentos são divididos em listas (positiva, negativa, neutra) que definem se PIS/COFINS serão pagos na venda. Se o seu sistema não classifica isso corretamente, você pode estar pagando imposto que não deveria, sangrando sua margem em cada venda.</p>
+                            <p><strong>Seu Sistema de Gestão é um Aliado (ou Inimigo):</strong> Um sistema barato que não fornece relatórios claros sobre a tributação de cada produto é um custo, não um investimento. Você precisa de uma ferramenta que te ajude a enxergar a realidade fiscal da sua operação.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Item 3 -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h3>Alavancas de Lucro: O Jogo dos Regimes Tributários</h3>
+                        <div class="accordion-icon">+</div>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <p><strong>Simples Nacional Nem Sempre é Simples (ou Barato):</strong> Geralmente faz sentido para farmácias faturando até R$ 150 mil/mês. Acima disso, a alíquota pode se tornar muito alta. A armadilha: O Simples é calculado sobre o faturamento bruto. Se você não teve lucro, ainda assim pagará imposto.</p>
+                            <p><strong>Lucro Real: Onde a Estratégia Acontece:</strong> Para farmácias com maior faturamento, este regime abre portas para economias significativas, pois o imposto incide sobre o lucro real (receitas - despesas). Créditos que você pode estar deixando na mesa:</p>
+                            <ul>
+                                <li><strong>Depreciação Acelerada:</strong> Se sua farmácia funciona em mais de um turno (ex: 16 horas/dia), você pode depreciar seus ativos (gôndolas, computadores) mais rápido, gerando uma "despesa contábil" que reduz seu imposto a pagar.</li>
+                                <li><strong>Amortização de Ativos Intangíveis:</strong> Comprou o ponto comercial (fundo de comércio)? Esse valor é um ativo e pode ser amortizado, também reduzindo a base de cálculo do imposto.</li>
+                                <li><strong>Crédito sobre Perdas:</strong> O produto venceu? Se você seguir o processo correto de baixa, essa perda também pode ser usada para abater do seu lucro tributável.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Item 4 -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h3>A Realidade da Bahia: O Custo Oculto do ICMS</h3>
+                        <div class="accordion-icon">+</div>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <p><strong>O Grande Erro de Precificação:</strong> Para produtos de perfumaria e não-medicamentos, o ICMS na Bahia não é um imposto sobre a venda, mas um custo na compra (antecipação).</p>
+                            <p><strong>Exemplo Prático:</strong> Você compra uma Fralda por R$49,75. Se você precifica usando apenas esse valor como custo, sua margem estará errada. O custo real, incluindo o ICMS de antecipação, pode ser de R$60,00. Se você não considera isso, está perdendo dinheiro a cada venda e nem percebe.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Bloco do Checklist Interativo -->
+    <section class="section checklist">
+        <div class="container">
+            <h2 class="section-title">Faça seu Auto-Diagnóstico em 1 Minuto</h2>
+            <p class="section-subtitle">Marque as ações que você ainda NÃO implementou na sua farmácia:</p>
+            
+            <div class="checklist-container">
+                <form id="auto-diagnostico">
+                    <div class="checklist-item">
+                        <input type="checkbox" id="item1" name="item1">
+                        <label for="item1">Auditar e separar 100% as finanças pessoais (CPF) das empresariais (CNPJ).</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="item2" name="item2">
+                        <label for="item2">Revisar o cadastro de produtos para garantir a correta segregação tributária (listas PIS/COFINS).</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="item3" name="item3">
+                        <label for="item3">Solicitar uma simulação de regime tributário (se fatura acima de R$150 mil/mês).</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="item4" name="item4">
+                        <label for="item4">Verificar se está aproveitando créditos fiscais como depreciação acelerada ou amortização de ativos (se no Lucro Real).</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="item5" name="item5">
+                        <label for="item5">(Para Farmácias na Bahia) Recalcular o custo de não-medicamentos, incluindo o ICMS de antecipação.</label>
+                    </div>
+                </form>
+                
+                <div class="checklist-result" id="checklist-result-block" style="display: none;">
+                    <p id="checklist-message">Se você marcou 2 ou mais itens, existe uma chance altíssima de sua farmácia estar deixando um valor significativo na mesa todos os meses. A boa notícia? Nós podemos encontrar esse valor para você.</p>
+                    <a href="https://wa.me/5571991101148?text=Olá!%20Vi%20a%20página%20da%20V3%20Farma%20e%20gostaria%20de%20agendar%20meu%20Diagnóstico%20Tributário%20Gratuito." target="_blank" class="cta-button">QUERO ENCONTRAR ESSE DINHEIRO AGORA</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Bloco de CTA Final -->
+    <section class="section final-cta" id="final-cta">
+        <div class="container">
+            <h2 class="section-title">Chega de Adivinhar. Tenha Certeza.</h2>
+            <p class="section-subtitle">Agende seu Diagnóstico Tributário Gratuito. Nossa equipe fará uma análise preliminar e confidencial dos seus dados para identificar os principais pontos de economia e risco na sua operação. Sem custo, sem compromisso.</p>
+            <p class="scarcity-text">Para garantir a máxima qualidade e atenção, analisamos um número limitado de farmácias por mês. Garanta sua vaga.</p>
+            <a href="https://wa.me/5571991101148?text=Olá!%20Vi%20a%20página%20da%20V3%20Farma%20e%20gostaria%20de%20agendar%20meu%20Diagnóstico%20Tributário%20Gratuito." target="_blank" class="cta-button">AGENDAR MEU DIAGNÓSTICO GRATUITO E SEM COMPROMISSO</a>
+        </div>
+    </section>
+
+    <!-- 6. Rodapé -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">
+                 <img src="https://v3farma.com.br/wp-content/uploads/2023/08/WhatsApp_Image_2023-09-06_at_07.48.41-removebg-preview-1.png" alt="Logo V3 FARMA">
+            </div>
+            <div class="footer-info">
+                <p>V3 FARMA - Contabilidade Estratégica</p>
+                <p>CNPJ: 36.309.313/0001-73</p>
+                <p>Rua Lauro Muller, nº 115, Edif. Cidade Baixa, Sala 201, Comércio, Salvador – BA, CEP 40015-210</p>
+                <p>
+                    <a href="tel:+5571991101148">(71) 9 9110-1148</a> | <a href="mailto:hugo@v3contabilidade.com">hugo@v3contabilidade.com</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Lógica para o Acordeão
+        const accordionItems = document.querySelectorAll('.accordion-item');
+
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            header.addEventListener('click', () => {
+                // Fecha todos os outros itens
+                accordionItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                // Alterna o item clicado
+                item.classList.toggle('active');
+            });
+        });
+
+        // Lógica para o Checklist Interativo
+        const checklistForm = document.getElementById('auto-diagnostico');
+        const resultBlock = document.getElementById('checklist-result-block');
+        const checkboxes = checklistForm.querySelectorAll('input[type="checkbox"]');
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                let checkedCount = 0;
+                checkboxes.forEach(cb => {
+                    if (cb.checked) {
+                        checkedCount++;
+                    }
+                });
+
+                if (checkedCount >= 2) {
+                    resultBlock.style.display = 'block';
+                } else {
+                    resultBlock.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
